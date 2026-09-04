@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Ciudadela de ALZ</title>
+<meta name="description" content="La Ciudadela de ALZ: comunidad de Scartlazarus. Comparte tus edits, sube de rango, apoya los proyectos y mantente al día.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body data-page="inicio" data-vista="inicio">
+
+  <canvas id="embers" aria-hidden="true"></canvas>
+
+  <header class="ax-nav">
+    <div class="ax-nav-inner">
+
+      <a class="ax-nav-brand" href="index.html">LA CIUDADELA<span>DE ALZ</span></a>
+
+      <!-- cajita compacta: notificaciones + volumen (y, para admins, la "AD") -->
+      <div class="ax-hub" id="ax-hub">
+        <div class="alz-bell" hidden aria-hidden="true"></div>
+        <div class="alz-music" aria-hidden="true"></div>
+        <button type="button" class="alz-admin-btn" hidden aria-hidden="true"></button>
+      </div>
+
+      <button type="button" class="ax-nav-burger" id="ax-nav-burger" aria-label="Abrir menú de secciones" aria-expanded="false"><span class="ax-burger-ico" aria-hidden="true">☰</span><span class="ax-burger-tx">Explorar</span></button>
+      <button type="button" class="ax-social-toggle" id="ax-social-toggle" aria-label="Abrir redes sociales" aria-expanded="false"><span class="ax-burger-ico" aria-hidden="true">☰</span><span class="ax-burger-tx">Redes</span></button>
+
+      <nav class="ax-nav-links" id="ax-nav-links">
+        <a href="comunidad.html" data-page="comunidad">Comunidad</a>
+        <a href="rangos.html" data-page="rangos">Rangos</a>
+        <a href="donaciones.html" data-page="donaciones" class="ax-nav-donar">Donar</a>
+        <a href="apoyo.html" data-page="apoyo" class="ax-nav-apoyo">Apoyo</a>
+      </nav>
+
+      <div class="ax-nav-social" id="ax-nav-social">
+        <a href="#" data-social="youtube" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23 6.5s-.2-1.6-.9-2.3c-.9-.9-1.9-.9-2.4-1C16.4 3 12 3 12 3h0s-4.4 0-7.7.2c-.5.1-1.5.1-2.4 1C1.2 4.9 1 6.5 1 6.5S.8 8.4.8 10.3v1.4c0 1.9.2 3.8.2 3.8s.2 1.6.9 2.3c.9.9 2 .9 2.6 1 1.9.2 7.9.2 7.9.2s4.4 0 7.7-.3c.5-.1 1.5-.1 2.4-1 .7-.7.9-2.3.9-2.3s.2-1.9.2-3.8v-1.4c0-1.9-.2-3.8-.2-3.8zM9.7 14.6V7.9l6.4 3.4-6.4 3.3z"/></svg>
+        </a>
+        <a href="#" data-social="tiktok" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 5.8c-.9-.9-1.4-2.1-1.4-3.4h-3.1v13.9c0 1.5-1.2 2.7-2.7 2.7-1.5 0-2.7-1.2-2.7-2.7s1.2-2.7 2.7-2.7c.3 0 .6.1.9.1V10.5c-.3 0-.6-.1-.9-.1-3.2 0-5.8 2.6-5.8 5.8S6.2 22 9.4 22s5.8-2.6 5.8-5.8V9.1c1.2.9 2.7 1.4 4.3 1.4V7.4c-1 0-2-.4-2.9-1.6z"/></svg>
+        </a>
+        <a href="#" data-social="discord" aria-label="Discord">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.3 5.4A17.6 17.6 0 0 0 15.9 4c-.2.4-.5.9-.6 1.3a16.3 16.3 0 0 0-4.6 0A9 9 0 0 0 10 4a17.7 17.7 0 0 0-4.4 1.4C2.9 9 2.2 12.6 2.5 16.1a17.8 17.8 0 0 0 5.4 2.7c.4-.6.8-1.2 1.1-1.9-.6-.2-1.2-.5-1.7-.9l.4-.3c3.3 1.5 6.9 1.5 10.2 0l.4.3c-.5.3-1.1.6-1.7.9.3.7.7 1.3 1.1 1.9a17.7 17.7 0 0 0 5.4-2.7c.4-4-.6-7.6-2.8-10.7zM9.7 13.9c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2zm5.6 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2z"/></svg>
+        </a>
+        <a href="#" data-social="instagram" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4.5c2.4 0 2.7 0 3.6.05 1 .05 1.5.2 1.9.35.5.2.8.4 1.2.8.4.4.6.7.8 1.2.15.4.3.9.35 1.9.05.9.05 1.2.05 3.6s0 2.7-.05 3.6c-.05 1-.2 1.5-.35 1.9-.2.5-.4.8-.8 1.2-.4.4-.7.6-1.2.8-.4.15-.9.3-1.9.35-.9.05-1.2.05-3.6.05s-2.7 0-3.6-.05c-1-.05-1.5-.2-1.9-.35-.5-.2-.8-.4-1.2-.8-.4-.4-.6-.7-.8-1.2-.15-.4-.3-.9-.35-1.9C4.5 14.7 4.5 14.4 4.5 12s0-2.7.05-3.6c.05-1 .2-1.5.35-1.9.2-.5.4-.8.8-1.2.4-.4.7-.6 1.2-.8.4-.15.9-.3 1.9-.35C9.3 4.5 9.6 4.5 12 4.5zm0 1.9a5.6 5.6 0 1 0 0 11.2 5.6 5.6 0 0 0 0-11.2zm0 9.2a3.6 3.6 0 1 1 0-7.2 3.6 3.6 0 0 1 0 7.2zm5.8-9.4a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6z"/></svg>
+        </a>
+        <a href="#" data-social="kick" aria-label="Kick">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h6v4.5h2.25V5.25H13.5V3H21v6.75h-2.25V12H21v11.25h-7.5V21h-2.25v-2.25H9V24H3z"/></svg>
+        </a>
+      </div>
+
+      <a class="ax-nav-cta" href="index.html?v=comunidad">Únete</a>
+
+      <!-- espacio reservado para el perfil (lo llena perfil-nav.js) — evita que el encabezado se mueva -->
+      <div class="cmn-profile" hidden aria-hidden="true"></div>
+
+    </div>
+  </header>
+
+  <!-- ================= VISTA: INICIO ================= -->
+  <div class="ax-view" data-view="inicio">
+
+    <header class="hero">
+      <div class="hero-text">
+        <p class="clearance-tag"><span class="dot"></span>CLAN OFICIAL — LA CIUDADELA DE ALZ</p>
+        <h1 class="glitch" data-text="UNA FAMILIA LLAMADA ALZ">UNA FAMILIA LLAMADA ALZ</h1>
+        <p class="tagline">
+          El punto de reunión de la comunidad de Scartlazarus: comparte tus edits, sube de rango, apoya los proyectos del canal y mantente al día con todo lo que se mueve en la Ciudadela.
+        </p>
+        <a class="btn-primary" href="index.html?v=comunidad">Únete al clan <span aria-hidden="true">&rarr;</span></a>
+      </div>
+
+      <aside class="hero-side">
+        <p class="hero-side-t">Empieza aquí</p>
+        <a class="hero-side-row" href="index.html?v=comunidad">
+          <span class="hero-side-ico">&#128172;</span>
+          <span class="hero-side-tx"><b>Entrar a la Comunidad</b><span>El muro: edits, likes y charla</span></span>
+        </a>
+        <a class="hero-side-row" href="index.html?v=rangos">
+          <span class="hero-side-ico">&#9876;</span>
+          <span class="hero-side-tx"><b>Ver rangos</b><span>Sube de nivel en el servidor</span></span>
+        </a>
+        <a class="hero-side-row" href="#" data-social="discord-invite">
+          <span class="hero-side-ico">&#128279;</span>
+          <span class="hero-side-tx"><b>Discord de la Alianza</b><span>Únete al servidor</span></span>
+        </a>
+      </aside>
+    </header>
+
+    <section class="ax-panel" data-tag="CIUDADELA">
+      <div class="ax-panel-inner">
+        <p class="info-label">ENTRAR A LA CIUDADELA</p>
+        <h2>¿A dónde quieres ir?</h2>
+        <p class="panel-intro">Elige una sección. Todo lo demás de la comunidad se organiza desde aquí.</p>
+
+        <div class="inicio-grid">
+          <a class="inicio-card" href="comunidad.html">
+            <span class="ic-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+            <span class="ic-name">Comunidad</span>
+            <span class="ic-desc">El muro: edits del canal, corazones y reacciones. Publica lo tuyo.</span>
+          </a>
+          <a class="inicio-card" href="rangos.html">
+            <span class="ic-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 17.5 3 6V3h3l11.5 11.5"/><path d="m13 19 6-6"/><path d="m16 16 4 4"/><path d="m19 21 2-2"/><path d="M21 3v3l-9.5 9.5"/><path d="m5 19 4-4"/><path d="m2 21 4-4"/></svg></span>
+            <span class="ic-name">Rangos</span>
+            <span class="ic-desc">Cómo subir de rango dentro de la Alianza y entrar al Discord.</span>
+          </a>
+          <a class="inicio-card ic-donar" href="donaciones.html">
+            <span class="ic-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
+            <span class="ic-name">Donar</span>
+            <span class="ic-desc">Ayuda a los proyectos de Scartlazarus. Métodos de pago y registro de tu aporte.</span>
+          </a>
+          <a class="inicio-card ic-apoyo" href="apoyo.html">
+            <span class="ic-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 20 7-11 4 6 3-4 4 9z"/><path d="M3 20h18"/></svg></span>
+            <span class="ic-name">Apoyo</span>
+            <span class="ic-desc">Formas de apoyar sin dinero. Por ahora en preparación.</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ================= VISTA: COMUNIDAD ================= -->
+  <div class="ax-view" data-view="comunidad" hidden>
+
+    <header class="hero">
+      <div class="hero-text">
+        <p class="clearance-tag"><span class="dot"></span>ESPACIO ABIERTO — MODERADO POR LA ALIANZA</p>
+        <h1 class="glitch" data-text="MURO DE LA COMUNIDAD">MURO DE LA COMUNIDAD</h1>
+        <p class="tagline">
+          El rincón libre del archivo: sin la estructura de expediente, sin coordenadas ni designaciones — solo espacio para compartir, conversar y pasarla bien con el resto de la Alianza.
+        </p>
+      </div>
+    </header>
+
+    <section class="ax-panel cmn-wrap" data-tag="COMUNIDAD" style="--panel-accent:#7fb3ff">
+      <div class="ax-panel-inner">
+
+        <div class="cmn-head">
+          <p class="info-label">COMUNIDAD ALZ · EL MURO</p>
+          <div class="cmn-filters" role="tablist">
+            <button type="button" data-cat-filter="comunidad" class="active">Comunidad</button>
+            <button type="button" data-cat-filter="fandom">Fandom · Edits</button>
+          </div>
+        </div>
+
+        <form class="cmn-composer" id="cmn-compose" hidden>
+          <div class="cmn-avatar sm" id="cmn-my-avatar">?</div>
+          <div class="cmn-composer-body">
+            <div class="cmn-cat-pills" id="cmn-cat-pills" hidden>
+              <label><input type="radio" name="cmn-cat" value="comunidad" checked><span>Comunidad</span></label>
+              <label><input type="radio" name="cmn-cat" value="fandom"><span>Fandom · Edits</span></label>
+            </div>
+            <p class="cmn-post-to" id="cmn-post-to">Publicas en <b>Fandom · Edits</b></p>
+            <textarea id="cmn-text" rows="1" maxlength="3000" placeholder="Comparte algo con la gente de ALZ…"></textarea>
+            <div class="cmn-media-strip" id="cmn-media-strip"></div>
+            <div class="cmn-composer-tools">
+              <label class="cmn-icon-btn" id="cmn-attach-btn" title="Adjuntar">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm0 14 4-5 3 4 3-3 4 4V5H5v12z"/></svg>
+                <input type="file" id="cmn-file" accept="image/*,video/*,audio/*" multiple hidden>
+              </label>
+              <span class="cmn-limit-hint" id="cmn-limit-hint"></span>
+              <button type="button" class="cmn-send" id="cmn-publish">Publicar</button>
+            </div>
+            <p class="cmn-msg" id="cmn-compose-msg" hidden></p>
+          </div>
+        </form>
+
+        <div class="cmn-feed" id="cmn-feed"></div>
+        <button type="button" class="cmn-more" id="cmn-more" hidden>Cargar más</button>
+
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ================= VISTA: RANGOS ================= -->
+  <div class="ax-view" data-view="rangos" hidden>
+
+    <header class="hero">
+      <div class="hero-text">
+        <p class="clearance-tag"><span class="dot"></span>NODO OPERATIVO — SERVIDOR DE LA ALIANZA</p>
+        <h1 class="glitch" data-text="RANGOS Y BENEFICIOS">RANGOS Y BENEFICIOS</h1>
+        <p class="tagline">
+          Niveles de colaborador dentro del servidor y el Discord de la Alianza. Cada rango desbloquea beneficios propios; todos son opcionales.
+        </p>
+      </div>
+    </header>
+
+    <section class="ax-panel" data-tag="ACCESO AL NODO" style="--panel-accent:#6fd39a">
+      <div class="ax-panel-inner">
+        <p class="info-label">ANTES DE EMPEZAR</p>
+        <h2>Discord y servidor</h2>
+        <p class="panel-intro">Todo lo relacionado a rangos se gestiona desde el Discord de la Alianza. Ahí encontrarás el enlace al servidor, la IP y el registro de beneficios.</p>
+
+        <div class="node-access">
+
+          <a class="node-card node-discord" href="https://discord.gg/2uxSagwSME" data-social="discord-invite" target="_blank" rel="noopener noreferrer">
+            <span class="dotpay"></span>
+            <span class="node-card-name">Discord de la Alianza</span>
+            <span class="node-discord-cta">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.3 5.4A17.6 17.6 0 0 0 15.9 4c-.2.4-.5.9-.6 1.3a16.3 16.3 0 0 0-4.6 0A9 9 0 0 0 10 4a17.7 17.7 0 0 0-4.4 1.4C2.9 9 2.2 12.6 2.5 16.1a17.8 17.8 0 0 0 5.4 2.7c.4-.6.8-1.2 1.1-1.9-.6-.2-1.2-.5-1.7-.9l.4-.3c3.3 1.5 6.9 1.5 10.2 0l.4.3c-.5.3-1.1.6-1.7.9.3.7.7 1.3 1.1 1.9a17.7 17.7 0 0 0 5.4-2.7c.4-4-.6-7.6-2.8-10.7zM9.7 13.9c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2zm5.6 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2z"/></svg>
+              <span>Entrar al Discord</span>
+            </span>
+          </a>
+
+          <div class="node-card node-ip">
+            <span class="dotpay"></span>
+            <span class="node-card-name">IP del servidor</span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="ax-panel" data-tag="NIVELES DE PROGRESIÓN" style="--panel-accent:#ffd27a">
+      <div class="ax-panel-inner">
+        <p class="info-label">CATÁLOGO — RANGOS DE COMPRA</p>
+        <h2>Rangos disponibles</h2>
+        <p class="panel-intro">Cada rango sube vidas, hidratación, cordura, energía, mochilas virtuales, homes y monedas iniciales respecto al anterior, además de un descuento propio en la tienda. El detalle completo de permisos vive en el Drive del servidor; aquí el resumen de compra.</p>
+
+        <div class="tier-grid">
+
+          <div class="tier-card" style="--tier-color:#9fb8ac">
+            <p class="tier-name">⛏ Milicia</p>
+            <p class="tier-price">Gratis · rango por defecto</p>
+            <ul>
+              <li>30 vidas</li>
+              <li>1 mochila virtual · 2 homes</li>
+              <li>Kit Milicia cada 12&nbsp;h</li>
+            </ul>
+          </div>
+
+          <div class="tier-card" style="--tier-color:#c9a86a">
+            <p class="tier-name">⚔ Razo</p>
+            <p class="tier-price">$2.99 temporal · $10.99 permanente</p>
+            <p class="tier-req">Ascenso desde Milicia: $9.00</p>
+            <ul>
+              <li>45 vidas · 115% hidr./cordura/energía</li>
+              <li>2 mochilas · 3 homes</li>
+              <li>500 monedas iniciales</li>
+              <li>5% descuento en la tienda</li>
+            </ul>
+          </div>
+
+          <div class="tier-card" style="--tier-color:#b9c4d6">
+            <p class="tier-name">⛨ Caballero</p>
+            <p class="tier-price">$4.99 temporal · $19.99 permanente</p>
+            <p class="tier-req">Ascenso: $9.00</p>
+            <ul>
+              <li>55 vidas · 130% hidr./cordura/energía</li>
+              <li>3 mochilas · 4 homes</li>
+              <li>1 000 monedas iniciales</li>
+              <li>6% descuento en la tienda</li>
+            </ul>
+          </div>
+
+          <div class="tier-card" style="--tier-color:#c48fd9">
+            <p class="tier-name">⚚ Paladín</p>
+            <p class="tier-price">$5.99 temporal · $29.99 permanente</p>
+            <p class="tier-req">Ascenso: $9.00</p>
+            <ul>
+              <li>65 vidas · 145% hidr./cordura/energía</li>
+              <li>4 mochilas · 5 homes</li>
+              <li>1 500 monedas iniciales</li>
+              <li>7% descuento en la tienda</li>
+            </ul>
+          </div>
+
+          <div class="tier-card" style="--tier-color:#7fb3ff">
+            <p class="tier-name">☬ Sacerdote</p>
+            <p class="tier-price">$6.99 temporal · $39.99 permanente</p>
+            <p class="tier-req">Ascenso: $9.00</p>
+            <ul>
+              <li>65 vidas · 155% hidr./cordura/energía</li>
+              <li>5 mochilas · 6 homes</li>
+              <li>2 000 monedas iniciales</li>
+              <li>8% descuento en la tienda</li>
+            </ul>
+          </div>
+
+          <div class="tier-card" style="--tier-color:#ff9d5c">
+            <p class="tier-name">☫ Arzobispo</p>
+            <p class="tier-price">$7.99 temporal · $49.99 permanente</p>
+            <p class="tier-req">Ascenso a Deidad: $15.00</p>
+            <ul>
+              <li>75 vidas · 170% hidr./cordura/energía</li>
+              <li>6 mochilas · 7 homes</li>
+              <li>2 500 monedas iniciales</li>
+              <li>9% descuento en la tienda</li>
+            </ul>
+          </div>
+
+          <div class="tier-card tier-featured" style="--tier-color:#ffd27a">
+            <span class="tier-flag">NIVEL MÁXIMO</span>
+            <p class="tier-name">☫ Deidad</p>
+            <p class="tier-price">$15.00 temporal · $64.99 permanente</p>
+            <ul>
+              <li>100 vidas · 200% hidr./cordura/energía</li>
+              <li>7 mochilas · 10 homes</li>
+              <li>5 000 monedas iniciales · 10% descuento</li>
+              <li>Tag personalizado + acceso anticipado a eventos</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ================= VISTA: DONAR ================= -->
+  <div class="ax-view" data-view="donaciones" hidden>
+
+    <header class="hero">
+      <div class="hero-text">
+        <p class="clearance-tag"><span class="dot"></span>CANAL DE APORTES — PERSONAL Y COLABORADORES EXTERNOS</p>
+        <h1 class="glitch" data-text="AYUDA A LOS PROYECTOS DE SCARTLAZARUS">AYUDA A LOS PROYECTOS DE SCARTLAZARUS</h1>
+        <p class="tagline">
+          Todo aporte es de corazón a los proyectos actuales y del futuro. ¡Descubre para qué serán usadas tus aportaciones! ✨🌹🩵
+        </p>
+      </div>
+    </header>
+
+    <section class="ax-panel ax-panel-wide" data-tag="APORTE VOLUNTARIO" style="--panel-accent:#ffd27a">
+      <div class="ax-panel-inner">
+
+        <p class="info-label">¿PARA QUÉ SE USA?</p>
+        <h2>Ayuda a los proyectos de Scartlazarus</h2>
+        <p class="panel-intro">
+          Todo aporte es de corazón a los proyectos actuales y del futuro. ¡Descubre para qué serán usadas tus aportaciones! ✨🌹🩵
+        </p>
+        <p>
+          Cada aporte se destina a diferentes funciones. Scartlazarus tiene muchos proyectos y poco tiempo, así que con tu apoyo puedes especificar en la descripción de tu donación a qué va dirigido. Actualmente se está creando un servidor de Minecraft, tanto para Java como para Bedrock, con dinámicas únicas; también un proyecto de trabajo llamado <strong>Katze Medizin</strong>, dedicado a la salud y a la investigación de formulación y tratamientos médicos a nivel nacional en el Perú y, si todo va bien, a nivel internacional. Muy aparte de esto, debemos considerar que nada de esto sería posible por sí solo: gracias a sus ayudantes —editores, configuradores y administradores— que apoyan con este gran peso debido al poco tiempo del que dispone Scartlazarus, ya que la mayoría de las actividades que se realizan son más para entretener y ayudar a quienes lo necesitan. Un claro ejemplo son los miembros de <strong>«ALZ»</strong>: son muchas las personas que pasamos por problemas de la vida cotidiana y, tengas menos de 18 años o más, Scartlazarus está dispuesto a escucharte y aconsejarte cuando nadie más lo hace, sin excluirte, haciéndote formar parte de esta hermosa familia llamada ALZ.
+        </p>
+
+        <p class="info-label" style="margin-top:10px">MÉTODOS DISPONIBLES</p>
+        <div class="pay-grid pay-grid-4">
+
+          <div class="pay-card">
+            <span class="pay-logo" data-brand="yape"><img src="assets/pay/yape.png" alt="Yape" onerror="this.remove()"><b>Yape</b></span>
+            <p class="pay-name">Yape</p>
+            <div class="pay-fields">
+              <div class="pay-field">
+                <div class="pf-info"><span class="pf-label">Número</span><code class="pf-value">931991026</code></div>
+                <button type="button" class="pf-copy" data-copy="931991026" aria-label="Copiar número de Yape">Copiar</button>
+              </div>
+            </div>
+            <img class="pay-qr" src="assets/pay/qr-yape.png" alt="QR de pago — Yape" onerror="this.remove()">
+          </div>
+
+          <div class="pay-card">
+            <span class="pay-logo" data-brand="bcp"><img src="assets/pay/bcp.png" alt="BCP" onerror="this.remove()"><b>BCP</b></span>
+            <p class="pay-name">Banca Móvil BCP</p>
+            <div class="pay-fields">
+              <div class="pay-field">
+                <div class="pf-info"><span class="pf-label">Cuenta Soles</span><code class="pf-value">57096013046028</code></div>
+                <button type="button" class="pf-copy" data-copy="57096013046028" aria-label="Copiar cuenta BCP Soles">Copiar</button>
+              </div>
+              <div class="pay-field">
+                <div class="pf-info"><span class="pf-label">Cuenta interbancaria (CCI)</span><code class="pf-value">0025701960130460280</code></div>
+                <button type="button" class="pf-copy" data-copy="0025701960130460280" aria-label="Copiar CCI del BCP">Copiar</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="pay-card">
+            <span class="pay-logo" data-brand="airtm"><img src="assets/pay/airtm.png" alt="Airtm" onerror="this.remove()"><b>airtm</b></span>
+            <p class="pay-name">Airtm</p>
+            <div class="pay-fields">
+              <div class="pay-field">
+                <div class="pf-info"><span class="pf-label">Correo</span><code class="pf-value">katzemedizin@gmail.com</code></div>
+                <button type="button" class="pf-copy" data-copy="katzemedizin@gmail.com" aria-label="Copiar correo de Airtm">Copiar</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="pay-card">
+            <span class="pay-logo" data-brand="paypal"><img src="assets/pay/paypal.png" alt="PayPal" onerror="this.remove()"><b>PayPal</b></span>
+            <p class="pay-name">PayPal</p>
+            <div class="pay-fields">
+              <div class="pay-field">
+                <div class="pf-info"><span class="pf-label">Correo</span><code class="pf-value">katzemedizin@gmail.com</code></div>
+                <button type="button" class="pf-copy" data-copy="katzemedizin@gmail.com" aria-label="Copiar correo de PayPal">Copiar</button>
+              </div>
+            </div>
+            <img class="pay-qr" src="assets/pay/qr-paypal.png" alt="QR de pago — PayPal" onerror="this.remove()">
+          </div>
+
+          <div class="pay-card">
+            <span class="pay-logo" data-brand="lemon"><img src="assets/pay/lemon.png" alt="Lemon Cash" onerror="this.remove()"><b>Lemon</b></span>
+            <p class="pay-name">Lemon Cash</p>
+            <div class="pay-fields">
+              <div class="pay-field">
+                <div class="pf-info"><span class="pf-label">$lemontag</span><code class="pf-value">scartlazarus</code></div>
+                <button type="button" class="pf-copy" data-copy="scartlazarus" aria-label="Copiar lemontag">Copiar</button>
+              </div>
+              <div class="pay-field">
+                <div class="pf-info"><span class="pf-label">Teléfono</span><code class="pf-value">+51931991026</code></div>
+                <button type="button" class="pf-copy" data-copy="+51931991026" aria-label="Copiar teléfono de Lemon">Copiar</button>
+              </div>
+              <div class="pay-field">
+                <div class="pf-info"><span class="pf-label">CCI</span><code class="pf-value">92200300000206483696</code></div>
+                <button type="button" class="pf-copy" data-copy="92200300000206483696" aria-label="Copiar CCI de Lemon">Copiar</button>
+              </div>
+            </div>
+            <img class="pay-qr" src="assets/pay/qr-lemon.png" alt="QR de pago — Lemon Cash" onerror="this.remove()">
+          </div>
+
+        </div>
+
+        <p class="info-label" style="margin-top:20px">CÓMO REGISTRAR TU APORTE</p>
+        <ol class="ax-steps">
+          <li>Establece el monto que deseas donar.</li>
+          <li>Toma captura de tu comprobante de pago.</li>
+          <li>Si deseas resaltar entre los demás, usa la captura de pantalla y <strong>censura tus datos personales</strong> para tener más privacidad.</li>
+          <li>Puedes enviarlo por 2 medios: por <strong>Discord</strong> o por <strong>esta misma web</strong>.</li>
+        </ol>
+
+        <div class="donate-send">
+
+          <form class="donate-box" id="donate-attach-form">
+            <p class="info-label">ADJUNTA TU DONACIÓN AQUÍ</p>
+            <label class="ax-field">
+              <span>Descripción breve</span>
+              <textarea name="desc" rows="3" maxlength="300" placeholder="A qué proyecto va dirigido tu aporte, tu usuario de Discord, etc."></textarea>
+            </label>
+            <label class="ax-file">
+              <span>📷 Adjuntar foto (solo 1)</span>
+              <input type="file" name="foto" accept="image/*">
+            </label>
+            <figure class="donate-preview" hidden><img alt="Vista previa del comprobante"></figure>
+            <button type="submit" class="ax-btn-solid">Enviar donación</button>
+            <p class="donate-msg" role="status" hidden></p>
+          </form>
+
+          <aside class="donate-box donate-discord">
+            <p class="info-label">TAMBIÉN POR DISCORD</p>
+            <p>Únete al servidor y adjunta tu donación en el canal habilitado para ello dentro del Discord de ALZ.</p>
+            <a class="ax-link-btn" href="#" data-social="discord-invite">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.3 5.4A17.6 17.6 0 0 0 15.9 4c-.2.4-.5.9-.6 1.3a16.3 16.3 0 0 0-4.6 0A9 9 0 0 0 10 4a17.7 17.7 0 0 0-4.4 1.4C2.9 9 2.2 12.6 2.5 16.1a17.8 17.8 0 0 0 5.4 2.7c.4-.6.8-1.2 1.1-1.9-.6-.2-1.2-.5-1.7-.9l.4-.3c3.3 1.5 6.9 1.5 10.2 0l.4.3c-.5.3-1.1.6-1.7.9.3.7.7 1.3 1.1 1.9a17.7 17.7 0 0 0 5.4-2.7c.4-4-.6-7.6-2.8-10.7zM9.7 13.9c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2zm5.6 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2z"/></svg>
+              Unirse al Discord
+            </a>
+          </aside>
+
+        </div>
+
+      </div>
+    </section>
+
+    <section class="ax-panel" data-tag="TRANSPARENCIA" style="--panel-accent:var(--clay)">
+      <div class="ax-panel-inner">
+        <p class="info-label">IMPORTANTE</p>
+        <h2>Donar es totalmente voluntario</h2>
+        <p>
+          No te sientas obligado a donar. Toda colaboración es de corazón y con buenas intenciones. Si está dentro de tus posibilidades aportar de esta forma, bienvenido sea. En otro caso —seas menor de edad o no tengas los recursos necesarios— hay otras formas de aportar, y eso lo puedes ver en la sección de esta página llamada <a href="apoyo.html">«APOYO»</a>.
+        </p>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ================= VISTA: APOYO ================= -->
+  <div class="ax-view" data-view="apoyo" hidden>
+
+    <header class="hero">
+      <div class="hero-text">
+        <p class="clearance-tag"><span class="dot"></span>OTRAS FORMAS DE APORTAR — SIN PONER DINERO</p>
+        <h1 class="glitch" data-text="APOYO">APOYO</h1>
+        <p class="tagline">No todo aporte es dinero. Aquí se reúnen formas de ayudar a los proyectos de Scartlazarus aunque seas menor de edad o no tengas recursos para donar. 🩵</p>
+      </div>
+    </header>
+
+    <section class="ax-panel" data-tag="APOYO" style="--panel-accent:#7fd0ff">
+      <div class="ax-panel-inner">
+        <p class="info-label">¿QUÉ ES EL APOYO?</p>
+        <h2>Aportar sin poner dinero</h2>
+        <p class="panel-intro">Donar es solo una de las formas de colaborar con los proyectos de Scartlazarus.</p>
+        <p>Si eres menor de edad o no cuentas con los recursos para donar, esta es tu vía: difundir, participar, ayudar en el servidor y en la comunidad suma tanto como un aporte económico.</p>
+        <p class="info-label" style="margin-top:14px">MÉTODOS DE APOYO</p>
+        <div class="pay-grid"><div class="pay-card"><span class="pay-logo" data-brand="apoyo">ALZ</span><p class="pay-name">Métodos de apoyo</p><p class="pay-data">No hay métodos de apoyo disponibles por ahora.</p></div></div>
+      </div>
+    </section>
+
+    <section class="ax-panel" data-tag="AL DÍA" style="--panel-accent:var(--clay)">
+      <div class="ax-panel-inner">
+        <p class="info-label">CÓMO ENTERARTE</p>
+        <h2>Se avisa por Discord</h2>
+        <p>Cuando se abra un método de apoyo se anuncia en el Discord de la Alianza.</p>
+        <div class="ax-link-row"><a class="ax-link-btn" href="#" data-social="discord-invite">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.3 5.4A17.6 17.6 0 0 0 15.9 4c-.2.4-.5.9-.6 1.3a16.3 16.3 0 0 0-4.6 0A9 9 0 0 0 10 4a17.7 17.7 0 0 0-4.4 1.4C2.9 9 2.2 12.6 2.5 16.1a17.8 17.8 0 0 0 5.4 2.7c.4-.6.8-1.2 1.1-1.9-.6-.2-1.2-.5-1.7-.9l.4-.3c3.3 1.5 6.9 1.5 10.2 0l.4.3c-.5.3-1.1.6-1.7.9.3.7.7 1.3 1.1 1.9a17.7 17.7 0 0 0 5.4-2.7c.4-4-.6-7.6-2.8-10.7zM9.7 13.9c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2zm5.6 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2z"/></svg>
+          Unirse al Discord
+        </a></div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- PUERTA — inicio de sesión / registro / recuperación (la rellena comunidad.js) -->
+  <div class="cmn-gate" id="cmn-gate" hidden>
+    <div class="cmn-gate-card" id="cmn-gate-card"></div>
+  </div>
+
+<footer class="ax-foot">
+  ALIANZA EXPLORATION MULTIVERSAL — La Ciudadela de ALZ. Protocolo de Silencio en vigor.
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4"></script>
+<script src="config.js"></script>
+<script src="ui.js"></script>
+<script src="script.js"></script>
+<script src="nav.js"></script>
+<script src="router.js"></script>
+<script src="comunidad.js"></script>
+<script src="perfil-nav.js"></script>
+<script src="admin.js"></script>
+<script src="musica.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!-- =====================================================================
+     CORREO DE RECUPERACIÓN DE CONTRASEÑA — LA CIUDADELA DE ALZ
+     Pégalo en:  Supabase > Authentication > Email Templates > "Reset Password"
+
+     ASUNTO (campo "Subject heading", arriba del editor):
+         Restablece tu contraseña — La Ciudadela de ALZ
+
+     IMAGEN DE FONDO (Minecraft):
+       Usa {{ .SiteURL }}/assets/fondo-minecraft.png  (funciona cuando la web
+       esté publicada y "Site URL" apunte a ella). Mientras sea local, sube
+       assets/fondo-minecraft.png a Supabase Storage (bucket público) y
+       reemplaza las 3 apariciones de la URL por la pública de Storage.
+
+     {{ .ConfirmationURL }} lo rellena Supabase con el enlace real.
+     El enlace lleva a la página  restablecer.html  (aparte del muro), donde
+     el usuario escribe la contraseña nueva y la confirma por segunda vez.
+     Caducidad: 30 minutos  (ajústala en Authentication > Settings >
+     "Email OTP Expiration" = 1800).
+===================================================================== -->
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0;padding:0;background:#161616;">
+  <tr>
+    <td align="center" background="{{ .SiteURL }}/assets/fondo-minecraft.png"
+        style="padding:40px 16px;background-color:#3b3b3b;background-image:url('{{ .SiteURL }}/assets/fondo-minecraft.png');background-size:cover;background-position:center;">
+
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+             style="max-width:560px;background:#c6c6c6;border:4px solid #1d1d1d;box-shadow:0 0 0 4px #565656;font-family:'Courier New',Consolas,monospace;">
+
+        <!-- franja "bloque de pasto" -->
+        <tr>
+          <td style="height:12px;background:#5b8a3a;border-bottom:4px solid #3f6327;font-size:0;line-height:0;">&nbsp;</td>
+        </tr>
+
+        <!-- marca -->
+        <tr>
+          <td style="padding:26px 34px 4px;background:#c6c6c6;">
+            <div style="font-size:11px;letter-spacing:3px;color:#5a5a5a;text-transform:uppercase;">La Ciudadela de</div>
+            <div style="font-size:34px;font-weight:800;letter-spacing:2px;color:#2f2f2f;text-shadow:2px 2px 0 #8a8a8a;">ALZ</div>
+            <div style="font-size:11px;letter-spacing:2px;color:#6b6b6b;text-transform:uppercase;margin-top:4px;">Alianza Exploration Multiversal · Servidor de Scartlazarus</div>
+          </td>
+        </tr>
+
+        <!-- cuerpo -->
+        <tr>
+          <td style="padding:18px 34px 6px;background:#c6c6c6;">
+            <div style="background:#2b2b2b;border:3px solid #1d1d1d;padding:22px 22px 24px;">
+              <h1 style="margin:0 0 14px;font-size:19px;line-height:1.4;color:#f4f4f4;font-weight:700;">
+                Restablece tu contraseña
+              </h1>
+              <p style="margin:0 0 14px;font-size:14px;line-height:1.7;color:#c9c9c9;">
+                Alguien —esperamos que seas tú— pidió cambiar la contraseña de tu cuenta en
+                <strong style="color:#8fd08f;">La Ciudadela de ALZ</strong>, la comunidad y el servidor de
+                <strong style="color:#8fd08f;">Scartlazarus</strong>.
+              </p>
+              <p style="margin:0 0 22px;font-size:14px;line-height:1.7;color:#c9c9c9;">
+                Pulsa el botón. Te llevará a una <strong style="color:#f4f4f4;">página aparte</strong> donde
+                escribirás la contraseña nueva y la <strong style="color:#f4f4f4;">confirmarás una segunda vez</strong>.
+              </p>
+
+              <!-- botón bloque -->
+              <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 auto 20px;">
+                <tr>
+                  <td align="center" style="background:#5b8a3a;border:3px solid #2f2f2f;box-shadow:4px 4px 0 #1d1d1d;">
+                    <a href="{{ .ConfirmationURL }}" target="_blank"
+                       style="display:inline-block;padding:14px 34px;font-size:15px;font-weight:700;color:#ffffff;text-decoration:none;letter-spacing:.5px;text-transform:uppercase;">
+                      Poner contraseña nueva
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin:0 0 6px;font-size:13px;line-height:1.6;color:#e8b45a;font-weight:700;">
+                ⏳ Este enlace caduca en 30 minutos y solo sirve una vez.
+              </p>
+              <p style="margin:0 0 14px;font-size:12px;line-height:1.6;color:#9a9a9a;">
+                Si el botón no funciona, copia y pega esta dirección en tu navegador:
+              </p>
+              <p style="margin:0;font-size:12px;line-height:1.6;word-break:break-all;">
+                <a href="{{ .ConfirmationURL }}" target="_blank" style="color:#8fd08f;">{{ .ConfirmationURL }}</a>
+              </p>
+            </div>
+          </td>
+        </tr>
+
+        <!-- aviso -->
+        <tr>
+          <td style="padding:14px 34px 4px;background:#c6c6c6;">
+            <p style="margin:0;font-size:12px;line-height:1.7;color:#4f4f4f;">
+              ¿No pediste esto? Ignora este correo: tu contraseña seguirá igual y nadie puede entrar sin este enlace.
+            </p>
+          </td>
+        </tr>
+
+        <!-- pie -->
+        <tr>
+          <td style="padding:16px 34px 24px;background:#c6c6c6;">
+            <div style="border-top:3px solid #1d1d1d;padding-top:14px;">
+              <p style="margin:0 0 4px;font-size:11px;letter-spacing:1.5px;color:#5a5a5a;text-transform:uppercase;">
+                Protocolo de Silencio en vigor
+              </p>
+              <p style="margin:0;font-size:12px;line-height:1.6;color:#6b6b6b;">
+                Correo automático de <strong style="color:#3f3f3f;">La Ciudadela de ALZ</strong>. No respondas a este mensaje.<br>
+                Comunidad de Scartlazarus — YouTube · TikTok · Kick · Discord.
+              </p>
+            </div>
+          </td>
+        </tr>
+
+        <!-- franja inferior -->
+        <tr>
+          <td style="height:12px;background:#6b4a2a;border-top:4px solid #4a3320;font-size:0;line-height:0;">&nbsp;</td>
+        </tr>
+
+      </table>
+
+      <p style="margin:16px 0 0;font-size:11px;color:#d8d8d8;font-family:'Courier New',monospace;text-shadow:1px 1px 0 #000;">
+        Enviado por la División de Anomalías — expediente de acceso restringido.
+      </p>
+    </td>
+  </tr>
+</table>

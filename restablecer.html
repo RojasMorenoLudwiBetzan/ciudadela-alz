@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Restablecer contraseña — La Ciudadela de ALZ</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body data-page="restablecer">
+
+  <canvas id="embers" aria-hidden="true"></canvas>
+
+  <header class="ax-nav">
+    <div class="ax-nav-inner">
+      <a class="ax-nav-brand" href="index.html">LA CIUDADELA<span>DE ALZ</span></a>
+      <button type="button" class="ax-nav-burger" id="ax-nav-burger" aria-label="Abrir menú" aria-expanded="false">☰</button>
+      <nav class="ax-nav-links" id="ax-nav-links">
+        <a href="comunidad.html" data-page="comunidad">Comunidad</a>
+        <a href="rangos.html" data-page="rangos">Rangos</a>
+        <a href="donaciones.html" data-page="donaciones" class="ax-nav-donar">Donar</a>
+        <a href="apoyo.html" data-page="apoyo" class="ax-nav-apoyo">Apoyo</a>
+      </nav>
+    </div>
+  </header>
+
+  <header class="hero">
+    <div class="hero-text">
+      <p class="clearance-tag"><span class="dot"></span>ACCESO — RESTABLECER CONTRASEÑA</p>
+      <h1 class="glitch" data-text="NUEVA CONTRASEÑA">NUEVA CONTRASEÑA</h1>
+      <p class="tagline">Estás en la página segura de La Ciudadela de ALZ. Escribe tu contraseña nueva y confírmala.</p>
+    </div>
+  </header>
+
+  <section class="ax-panel" data-tag="ACCESO" style="--panel-accent:#7fb3ff">
+    <div class="ax-panel-inner">
+      <div class="rp-box" id="rp-box">
+        <p class="rp-state" id="rp-state">Verificando el enlace…</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="ax-foot">
+    ALIANZA EXPLORATION MULTIVERSAL — La Ciudadela de ALZ. Protocolo de Silencio en vigor.
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4"></script>
+  <script src="config.js"></script>
+  <script src="ui.js"></script>
+  <script src="script.js"></script>
+  <script src="nav.js"></script>
+  <script src="restablecer.js"></script>
+
+</body>
+</html>
