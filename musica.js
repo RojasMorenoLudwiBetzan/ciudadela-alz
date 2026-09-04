@@ -110,7 +110,9 @@
 
   audio.addEventListener('ended', () => { st.i = (st.i + 1) % LISTA.length; st.ancla = Date.now(); guardar(); cargar(st.i); });
   audio.addEventListener('error', () => { st.i = (st.i + 1) % LISTA.length; st.ancla = Date.now(); cargar(st.i); });
-  audio.addEventListener('pause', () => { if (!audio.ended && gesto) audio.play().catch(() => {}); });
+  // solo se auto-reanuda si el corte NO fue porque saliste de la página
+  // (pestaña/app en segundo plano); así, al salir, la música se calla de verdad.
+  audio.addEventListener('pause', () => { if (!audio.ended && gesto && !document.hidden) audio.play().catch(() => {}); });
 
   let ultimo = 0;
   audio.addEventListener('timeupdate', () => {
@@ -121,7 +123,19 @@
   });
   window.addEventListener('pagehide', anclar);
   window.addEventListener('beforeunload', anclar);
-  document.addEventListener('visibilitychange', () => { if (!document.hidden && gesto) audio.play().catch(() => {}); });
+
+  /* al salir de la página (cambiar de app, minimizar, otra pestaña) la
+     música se detiene de verdad — no sigue sonando de fondo. Al volver,
+     recalcula por reloj real dónde iría ahora y sigue desde ahí (no se
+     queda pegada en el punto donde la dejaste). */
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      anclar();
+      audio.pause();
+    } else if (gesto) {
+      cargar(st.i);
+    }
+  });
 
   /* ---------- interruptor (silenciar / activar) — vive en el encabezado fijo ---------- */
   const navInner = document.querySelector('.ax-nav-inner');
