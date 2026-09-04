@@ -94,6 +94,11 @@ drop policy if exists "miembro salir" on public.sala_miembros;
 create policy "miembro salir" on public.sala_miembros for delete to authenticated
   using (perfil = auth.uid());
 
+-- solo quien creó un grupo puede eliminarlo (para todos); los DM no se borran así
+drop policy if exists "grupo eliminar" on public.salas;
+create policy "grupo eliminar" on public.salas for delete to authenticated
+  using (tipo = 'grupo' and creador = auth.uid());
+
 drop policy if exists "mensajes ver" on public.mensajes;
 create policy "mensajes ver" on public.mensajes for select to authenticated
   using (public.es_miembro(sala));
@@ -169,7 +174,7 @@ grant execute on function public.mis_amigos() to authenticated;
 
 create or replace function public.mis_salas()
 returns table (id uuid, tipo text, nombre text, otro_alias text, otro_id uuid,
-               ultimo text, ultimo_at timestamptz)
+               ultimo text, ultimo_at timestamptz, creador uuid)
 language sql security definer stable set search_path = public as $$
   select s.id, s.tipo, s.nombre,
     (select p.alias::text from public.sala_miembros m
@@ -178,7 +183,8 @@ language sql security definer stable set search_path = public as $$
     (select m.perfil from public.sala_miembros m
        where m.sala = s.id and m.perfil <> auth.uid() limit 1) as otro_id,
     (select x.texto  from public.mensajes x where x.sala = s.id order by x.creado desc limit 1) as ultimo,
-    (select x.creado from public.mensajes x where x.sala = s.id order by x.creado desc limit 1) as ultimo_at
+    (select x.creado from public.mensajes x where x.sala = s.id order by x.creado desc limit 1) as ultimo_at,
+    s.creador
   from public.salas s
   where public.es_miembro(s.id)
   order by ultimo_at desc nulls last, s.creado desc

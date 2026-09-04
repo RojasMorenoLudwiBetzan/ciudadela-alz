@@ -1068,7 +1068,7 @@
       if (!(await window.alzConfirm('¿Eliminar esta publicación? No se puede deshacer.', { aceptar: 'Eliminar', peligro: true }))) return;
       delBtn.disabled = true;
       const { error } = await sb.from('publicaciones').delete().eq('id', id).eq('autor', user.id);
-      if (error) { delBtn.disabled = false; log('borrar error: ' + error.message, 'err'); alert(errMsg(error)); return; }
+      if (error) { delBtn.disabled = false; log('borrar error: ' + error.message, 'err'); await window.alzAlert(errMsg(error)); return; }
       log('publicación eliminada', 'ok');
       const art = delBtn.closest('.cmn-post');
       if (art) art.remove();
@@ -1142,7 +1142,7 @@
     const texto = await empaquetarMenciones(val);
     const cins = await sb.from('comentarios').insert({ publicacion_id: pubId, autor: user.id, texto: texto }).select('id').single();
     input.disabled = false; input.focus();
-    if (cins.error) { log('comentar error: ' + cins.error.message, 'err'); alert(errMsg(cins.error)); return; }
+    if (cins.error) { log('comentar error: ' + cins.error.message, 'err'); await window.alzAlert(errMsg(cins.error)); return; }
     await crearNotifs(texto, pubId, cins.data.id);
     input.value = ''; mencionSel.clear();
     const box = feed.querySelector('.cmn-comments[data-comments-for="' + pubId + '"]');
@@ -1184,7 +1184,7 @@
     const cid = cdel.getAttribute('data-cdel');
     if (!(await window.alzConfirm('¿Eliminar tu comentario?', { aceptar: 'Eliminar', peligro: true }))) return;
     const { error } = await sb.from('comentarios').delete().eq('id', cid).eq('autor', user.id);
-    if (error) { alert(errMsg(error)); return; }
+    if (error) { await window.alzAlert(errMsg(error)); return; }
     const row = cdel.closest('[data-cid]'); if (row) row.remove();
   });
 
@@ -1412,7 +1412,7 @@
       if (!salas.length) h += '<div class="alz-empty">Sin chats todavía. Abre uno desde tu lista de amigos.</div>';
       h += salas.map((s) => {
         const nom = s.tipo === 'grupo' ? (s.nombre || 'Grupo') : (s.otro_alias || '???');
-        return '<div class="alz-row alz-chat" data-sala="' + s.id + '" data-tipo="' + s.tipo + '" data-nom="' + esc(nom) + '">' +
+        return '<div class="alz-row alz-chat" data-sala="' + s.id + '" data-tipo="' + s.tipo + '" data-nom="' + esc(nom) + '" data-creador="' + esc(s.creador || '') + '">' +
           '<span class="alz-av">' + (s.tipo === 'grupo' ? '#' : esc(initial(s.otro_alias))) + '</span>' +
           '<span class="alz-name">' + esc(nom) + '</span>' +
           '<span class="alz-last">' + esc((s.ultimo || '').slice(0, 24)) + '</span></div>';
@@ -1421,11 +1421,15 @@
     }
   }
 
+  function soyCreadorDeLaSala() {
+    return !!(salaAbierta && salaAbierta.tipo === 'grupo' && perfil && salaAbierta.creador && salaAbierta.creador === perfil.id);
+  }
   async function pintarSala() {
     dockBody.classList.add('en-sala');
     dockBody.innerHTML = '<div class="alz-chat-head"><button type="button" class="alz-back" data-back="1">‹</button>' +
       '<strong>' + esc(salaAbierta.nom) + '</strong>' +
       (salaAbierta.tipo === 'grupo' ? '<button type="button" class="alz-inv" data-inv="1">Invitar</button>' : '') +
+      (soyCreadorDeLaSala() ? '<button type="button" class="alz-del" data-delgrupo="1" title="Eliminar grupo">&#128465;</button>' : '') +
       '</div><div class="alz-msgs" id="alz-msgs"><p class="cmn-c-load">Cargando…</p></div>' +
       '<form class="alz-send" data-send="1"><input type="text" maxlength="4000" placeholder="Mensaje…" autocomplete="off" required><button type="submit">➤</button></form>';
     const cont = dockBody.querySelector('#alz-msgs');
@@ -1480,7 +1484,7 @@
     if (!dock) initSocial();
     dock.classList.remove('is-min');
     const { data, error } = await sb.rpc('abrir_dm', { p_otro: otroId });
-    if (error) { alert(errMsg(error)); return; }
+    if (error) { await window.alzAlert(errMsg(error)); return; }
     const amigo = amigos.find((a) => a.id === otroId);
     salaAbierta = { id: data, tipo: 'dm', nom: (amigo ? amigo.alias : '') };
     if (!amigo) {
@@ -1488,6 +1492,41 @@
       salaAbierta.nom = (p.data && p.data.alias) || '???';
     }
     pintarSala();
+  }
+
+  /* lista de amigos para invitar a un grupo (reemplaza el prompt de "escribe el número") */
+  async function abrirInvitar() {
+    if (!salaAbierta) return;
+    if (!amigos.length) {
+      await window.alzAlert('Todavía no tienes amigos agregados. Toca la foto de alguien en el muro y envíale una solicitud primero.');
+      return;
+    }
+    const ov = document.createElement('div');
+    ov.className = 'alz-ask';
+    ov.innerHTML = '<div class="alz-ask-card">' +
+      '<p class="alz-ask-msg">Invitar a «' + esc(salaAbierta.nom) + '»</p>' +
+      '<div class="alz-invite-list">' + amigos.map((a, i) =>
+        '<button type="button" class="alz-row alz-invite-row" data-idx="' + i + '">' +
+          '<span class="alz-av">' + esc(initial(a.alias)) + '</span>' +
+          '<span class="alz-name">' + esc(a.alias) + '</span></button>'
+      ).join('') + '</div>' +
+      '<div class="alz-ask-btns"><button type="button" class="alz-ask-no">Cerrar</button></div></div>';
+    document.body.appendChild(ov);
+    const cerrar = () => { ov.remove(); document.removeEventListener('keydown', onKey); };
+    const onKey = (e) => { if (e.key === 'Escape') cerrar(); };
+    ov.querySelector('.alz-ask-no').addEventListener('click', cerrar);
+    ov.addEventListener('click', (e) => { if (e.target === ov) cerrar(); });
+    document.addEventListener('keydown', onKey);
+    ov.querySelector('.alz-invite-list').addEventListener('click', async (e) => {
+      const b = e.target.closest('[data-idx]');
+      if (!b || b.disabled) return;
+      const a = amigos[parseInt(b.getAttribute('data-idx'), 10)];
+      if (!a) return;
+      b.disabled = true;
+      const { error } = await sb.rpc('invitar_grupo', { p_sala: salaAbierta.id, p_perfil: a.id });
+      cerrar();
+      await window.alzAlert(error ? errMsg(error) : ('Invitaste a ' + a.alias + ' al grupo.'));
+    });
   }
 
   async function onDockClick(e) {
@@ -1506,22 +1545,28 @@
       const nom = await window.alzPrompt('Nombre del grupo:', { aceptar: 'Crear', placeholder: 'Ej. ALZ · edits' });
       if (!nom) return;
       const { data, error } = await sb.rpc('crear_grupo', { p_nombre: nom });
-      if (error) { alert(errMsg(error)); return; }
-      salaAbierta = { id: data, tipo: 'grupo', nom: nom };
+      if (error) { await window.alzAlert(errMsg(error)); return; }
+      salaAbierta = { id: data, tipo: 'grupo', nom: nom, creador: perfil.id };
       pintarSala(); return;
     }
-    if (b.dataset.inv != null && salaAbierta) {
-      if (!amigos.length) { alert('Primero agrega amigos para poder invitarlos.'); return; }
-      const nombres = amigos.map((a, i) => (i + 1) + '. ' + a.alias).join('   ');
-      const pick = await window.alzPrompt('¿A quién invitas? Escribe el número:\n' + nombres, { aceptar: 'Invitar', placeholder: 'número' });
-      const idx = parseInt(pick, 10) - 1;
-      if (isNaN(idx) || !amigos[idx]) return;
-      const { error } = await sb.rpc('invitar_grupo', { p_sala: salaAbierta.id, p_perfil: amigos[idx].id });
-      alert(error ? errMsg(error) : 'Invitado @' + amigos[idx].alias);
+    if (b.dataset.inv != null && salaAbierta) { abrirInvitar(); return; }
+    if (b.dataset.delgrupo != null && salaAbierta && soyCreadorDeLaSala()) {
+      const ok = await window.alzConfirm(
+        'Vas a eliminar el grupo «' + salaAbierta.nom + '» para todos sus miembros. Los mensajes se borran y esto no se puede deshacer.',
+        { aceptar: 'Eliminar grupo', peligro: true, escribir: salaAbierta.nom }
+      );
+      if (!ok) return;
+      const { error } = await sb.from('salas').delete().eq('id', salaAbierta.id);
+      if (error) { await window.alzAlert(errMsg(error)); return; }
+      const nom = salaAbierta.nom;
+      salaAbierta = null;
+      if (canalSala) { try { sb.removeChannel(canalSala); } catch (_) {} canalSala = null; }
+      await pintarDock();
+      await window.alzAlert('Se eliminó el grupo «' + nom + '».');
       return;
     }
     const chat = b.closest('.alz-chat') || (b.classList && b.classList.contains('alz-chat') ? b : null);
-    if (chat) { salaAbierta = { id: chat.dataset.sala, tipo: chat.dataset.tipo, nom: chat.dataset.nom }; pintarSala(); return; }
+    if (chat) { salaAbierta = { id: chat.dataset.sala, tipo: chat.dataset.tipo, nom: chat.dataset.nom, creador: chat.dataset.creador || null }; pintarSala(); return; }
     const fr = b.closest('.alz-friend') || (b.classList && b.classList.contains('alz-friend') ? b : null);
     if (fr && fr.dataset.dm) { abrirDM(fr.dataset.dm); return; }
   }
@@ -1534,7 +1579,7 @@
     if (!val) return;
     input.value = '';
     const { error } = await sb.from('mensajes').insert({ sala: salaAbierta.id, autor: user.id, texto: val });
-    if (error) { alert(errMsg(error)); input.value = val; }
+    if (error) { await window.alzAlert(errMsg(error)); input.value = val; }
   }
 
   /* realtime de solicitudes de amistad entrantes */
