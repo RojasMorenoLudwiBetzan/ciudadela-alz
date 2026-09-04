@@ -615,6 +615,8 @@
       if (keep.length !== attachments.length) { attachments = keep; renderStrip(); }
     }
     if (postTo) postTo.innerHTML = 'Publicas en <b>' + (soloMedia ? 'Fandom · Edits' : 'Comunidad') + '</b>';
+    // "Enviar" en Comunidad (es al instante, como un chat) · "Publicar" en Fandom
+    if (pubBtn) pubBtn.textContent = soloMedia ? 'Publicar' : 'Enviar';
     if (catPills) catPills.hidden = (filterCat !== 'todos');
     actualizarHint();
   }
