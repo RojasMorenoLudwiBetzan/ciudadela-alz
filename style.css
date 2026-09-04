@@ -3167,7 +3167,9 @@ body.cmn-locked { overflow: hidden; }
 .alz-bell-t { display: block; margin-top: 2px; font-family: 'Courier New', monospace; font-size: 0.62rem; color: #8f9683; }
 
 @media (max-width: 900px) {
-  .alz-bell-menu { left: auto; right: 0; }
+  /* la campana ahora vive cerca del borde izquierdo del encabezado:
+     el menú se abre hacia la derecha para no salirse de la pantalla */
+  .alz-bell-menu { left: 0; right: auto; }
 }
 
 /* resalte al llegar desde una notificación */
@@ -3599,7 +3601,7 @@ body.cmn-locked { overflow: hidden; }
   .cmn-react { padding: 4px 6px; font-size: 0.85rem; }
   .cmn-like, .cmn-cbtn { padding: 5px 9px; font-size: 0.74rem; }
   .cmn-pf-menu { width: min(280px, calc(100vw - 24px)); }
-  .alz-bell-menu { width: min(300px, calc(100vw - 20px)); left: auto; right: 0; }
+  .alz-bell-menu { width: min(300px, calc(100vw - 20px)); left: 0; right: auto; }
   .hero { padding: 22px 3vw 12px; }
   .hero-text { padding: 16px 14px 18px; max-width: 100%; }
   .hero h1 { font-size: clamp(1.05rem, 5vw, 1.5rem); }
